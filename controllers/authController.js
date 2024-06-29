@@ -59,7 +59,7 @@ async function login(req, res) {
         res.json({ token })
         await Token.create({ token, userId: user.id, expiresAt:expiresAt(1, 'h'), scope: 'login' });
     } catch (error) {
-        res.status(500).json({ msg: 'Internal Server Error' });
+        res.status(500).json({ msg: 'Internal Server Error',error:error });
     }
 };
 
@@ -98,7 +98,7 @@ async function forgetPassword(req, res) {
             }
         });
     } catch (error) {
-        res.status(500).json({ msg: 'Internal Server Error' });
+        res.status(500).json({ msg: 'Internal Server Error',error:error });
     }
 }
 
@@ -118,7 +118,7 @@ async function getForgetPassword(req, res) {
         User.update({password: hashedPassword},{where:{id:user.id}});
         return res.status(200).json({msg:'Password Berhasil Diubah'});
     } catch (error) {
-        res.status(500).json({ msg: 'Internal Server Error' });
+        res.status(500).json({ msg: 'Internal Server Error' ,error:error});
     }
 }
 
@@ -131,7 +131,7 @@ async function logout(req, res) {
         await Token.destroy({ where: { token } });
         res.status(200).json({ msg: 'Logout Berhasil' });
     } catch (error) {
-        res.status(500).json({ msg: 'Internal Server Error' });
+        res.status(500).json({ msg: 'Internal Server Error',error:error });
     }
 }
 
