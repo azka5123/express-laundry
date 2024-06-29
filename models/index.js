@@ -15,6 +15,7 @@ const config = require('../config/config.js');
 // });
 
 const sequelize = new Sequelize(process.env.POSTGRES_URL, {
+  dialectModule: require('pg'),
   dialectOptions: {
     ssl: {
       require: true
