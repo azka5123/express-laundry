@@ -4,7 +4,7 @@ const { index, store, edit, update, destroy } = require('../controllers/userCont
 
 router.get('/index', index);
 router.post('/store', store);
-router.post('/edit/:id', edit);
+router.get('/edit/:id', edit);
 router.post('/update/:id', update);
 router.post('/destroy/:id', destroy);
 
