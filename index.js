@@ -15,9 +15,9 @@ app.use(express.urlencoded({extended: true}));
 
 app.use('/',routes);
 
-app.get('/',(req,res)=>{
-    res.status(201).json({msg:'api untuk laundry'});
-})
+// app.get('/',(req,res)=>{
+//     res.status(201).json({msg:'api untuk laundry'});
+// })
 
 app.listen(port, () => {
     console.log(`http://localhost:${port}`);

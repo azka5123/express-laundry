@@ -1,12 +1,11 @@
 const { User, Token } = require('../models');
-const { sequelize } = require('../models/index'); const jwt = require('jsonwebtoken');
+const { sequelize } = require('../models/index'); 
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const JWT_SECRET = process.env.JWT_SECRET;
 const moment = require('moment-timezone');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const { error } = require('console');
-// require('dotenv');
 
 const transporter = nodemailer.createTransport({
     service: process.env.MAIL_HOST,
@@ -29,7 +28,7 @@ async function register(req, res) {
         const user = await User.create({ name, email, password: hashedPassword, role });
         res.status(201).json({ msg: 'User Berhasil Dibuat' });
     } catch (error) {
-        if (error.name === 'SequelizeUniqueConstraintError') {
+        if (error.email === 'SequelizeUniqueConstraintError') {
             return res.status(400).json({ msg: 'Email Sudah Digunakan' });
         }
         res.status(500).json({ msg: 'Internal Server Error' });
@@ -57,8 +56,8 @@ async function login(req, res) {
         }
 
         const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
-        await Token.create({ token, userId: user.id, expiresAt:expiresAt(1, 'h'), scope: 'login' });
         res.json({ token })
+        await Token.create({ token, userId: user.id, expiresAt:expiresAt(1, 'h'), scope: 'login' });
     } catch (error) {
         res.status(500).json({ msg: 'Internal Server Error' });
     }
@@ -123,9 +122,24 @@ async function getForgetPassword(req, res) {
     }
 }
 
+async function logout(req, res) {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+    if (!token) {
+        return res.status(400).json({ msg: 'Token not provided' });
+    }
+    try {
+        await Token.destroy({ where: { token } });
+        res.status(200).json({ msg: 'Logout Berhasil' });
+    } catch (error) {
+        res.status(500).json({ msg: 'Internal Server Error' });
+    }
+}
+
+
 module.exports = {
     register,
     login,
     forgetPassword,
     getForgetPassword,
+    logout,
 }
