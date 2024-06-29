@@ -2,11 +2,13 @@ const Sequelize = require('sequelize');
 const config = require('../config/config.js');
 
 // const sequelize = new Sequelize(config.development.database, config.development.username, config.development.password, {
-const sequelize = new Sequelize( {
-  // host: config.development.host,
-  dialect: config.development.dialect,
-  storage: '../database/express_laundry.sqlite',
-});
+// // const sequelize = new Sequelize( {
+//   host: config.development.host,
+//   dialect: config.development.dialect,
+//   // storage: '../database/express_laundry.sqlite',
+// });
+
+const sequelize = new Sequelize(config.development.url);
 
 const db = {};
 

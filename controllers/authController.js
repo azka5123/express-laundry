@@ -25,7 +25,7 @@ async function register(req, res) {
     try {
         await sequelize.sync();
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await User.create({ name, email, password: hashedPassword, role });
+        const user = await User.create({ name, email, password: hashedPassword, role:'user' });
         res.status(201).json({ msg: 'User Berhasil Dibuat' });
     } catch (error) {
         if (error.email === 'SequelizeUniqueConstraintError') {
