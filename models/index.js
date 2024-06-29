@@ -7,7 +7,9 @@ const config = require('../config/config.js');
 //   // storage: '../database/express_laundry.sqlite',
 // });
 
-const sequelize = new Sequelize(config.development.url);
+const sequelize = new Sequelize(config.development.url,{
+  dialect : config.development.dialect,
+});
 
 const db = {};
 
