@@ -1,16 +1,19 @@
 const Sequelize = require('sequelize');
 const config = require('../config/config.js');
 
-// const sequelize = new Sequelize(config.development.database, config.development.username, config.development.password, {
-// // const sequelize = new Sequelize( {
-//   host: config.development.host,
-//   dialect: config.development.dialect,
-//   // storage: '../database/express_laundry.sqlite',
-// });
-
-const sequelize = new Sequelize(process.env.POSTGRES_URL,{
-  dialect : config.development.dialect,
+const sequelize = new Sequelize(config.development.database, config.development.username, config.development.password, {
+// const sequelize = new Sequelize( {
+  host: config.development.host,
+  dialect: config.development.dialect,
+  dialectOptions: {
+    ssl: {
+    require: true
+    }
+}
+  // storage: '../database/express_laundry.sqlite',
 });
+
+// const sequelize = new Sequelize(process.env.POSTGRES_URL);
 
 const db = {};
 
