@@ -66,7 +66,7 @@ async function login(req, res) {
 async function forgetPassword(req, res) {
     const { email } = req.body;
     try {
-       return res.json(expiresAt(10, 'm'));
+    //    return res.json(expiresAt(10, 'm'));
         const user = await User.findOne({ where: { email } });
         if (!user) {
             return res.status(400).json({ msg: "Email Tidak Terdaftar" });
