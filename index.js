@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const bodyParse = require('body-parser');
 const routes = require('./routes');
+const moment = require('moment-timezone');
+
 
 const envFile = process.env.NODE_ENV === 'production' ? '.env.prod' : '.env.dev';
 
@@ -21,7 +23,8 @@ app.use(express.urlencoded({extended: true}));
 app.use('/',routes);
 
 app.get('/',(req,res)=>{
-    res.status(201).json({msg:'api untuk laundry'});
+    waktu = moment().toDate();
+    res.status(201).json({msg:'api untuk laundry' ,waktu});
 })
 
 app.listen(port, () => {

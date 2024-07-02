@@ -105,9 +105,9 @@ async function forgetPassword(req, res) {
 async function getForgetPassword(req, res) {
     const { token } = req.params;
     const { password } = req.body;
-    try {
+    // try {
         const checkToken = await Token.findOne({ where: { token, scope: 'forget-password',  } });
-        if (!checkToken || moment.isAfter(checkToken.expiresAt, moment())) {
+        if (!checkToken || checkToken.expiresAt < moment().toDate()) {
             return res.status(400).json({ msg: 'Token Is Invalid Or Expired' });
         }
         const user = await User.findOne({ where: { id: checkToken.userId } });
@@ -116,10 +116,11 @@ async function getForgetPassword(req, res) {
         }
         const hashedPassword = await bcrypt.hash(password, 10);
         User.update({password: hashedPassword},{where:{id:user.id}});
+        Token.destroy({where:{token}});
         return res.status(200).json({msg:'Password Berhasil Diubah'});
-    } catch (error) {
-        res.status(500).json({ msg: 'Internal Server Error' ,error:error});
-    }
+    // } catch (error) {
+    //     res.status(500).json({ msg: 'Internal Server Error' ,error:error});
+    // }
 }
 
 async function logout(req, res) {
