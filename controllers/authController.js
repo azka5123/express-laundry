@@ -1,5 +1,5 @@
 const { User, Token } = require('../models');
-const { sequelize } = require('../models/index'); 
+const { sequelize } = require('../models/index');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -9,7 +9,7 @@ const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
     service: process.env.MAIL_HOST,
-    auth:{
+    auth: {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASS
     }
@@ -25,7 +25,7 @@ async function register(req, res) {
     try {
         await sequelize.sync();
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await User.create({ name, email, password: hashedPassword, role:'user' });
+        const user = await User.create({ name, email, password: hashedPassword, role: 'user' });
         res.status(201).json({ msg: 'User Berhasil Dibuat' });
     } catch (error) {
         if (error.email === 'SequelizeUniqueConstraintError') {
@@ -57,57 +57,57 @@ async function login(req, res) {
 
         const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '1d' });
         res.json({ token })
-        await Token.create({ token, userId: user.id, expiresAt:expiresAt(1, 'd'), scope: 'login' });
+        await Token.create({ token, userId: user.id, expiresAt: expiresAt(1, 'd'), scope: 'login' });
     } catch (error) {
-        res.status(500).json({ msg: 'Internal Server Error',error:error });
+        res.status(500).json({ msg: 'Internal Server Error', error: error });
     }
 };
 
 async function forgetPassword(req, res) {
     const { email } = req.body;
     try {
-    //    return res.json(expiresAt(10, 'm'));
+        //    return res.json(expiresAt(10, 'm'));
         const user = await User.findOne({ where: { email } });
         if (!user) {
             return res.status(400).json({ msg: "Email Tidak Terdaftar" });
         }
         const token = crypto.randomBytes(32).toString('hex');
-        checkToken = await Token.findOne({where:{userId:user.id}});
-        if(checkToken){
+        checkToken = await Token.findOne({ where: { userId: user.id } });
+        if (checkToken) {
             await checkToken.destroy();
         }
-        await Token.create({token, userId:user.id, expiresAt:expiresAt(10, 'm') , scope:'forget-password' });
+        await Token.create({ token, userId: user.id, expiresAt: expiresAt(10, 'm'), scope: 'forget-password' });
 
         const mailOptions = {
             from: process.env.MAIL_USER,
             to: email,
             subject: 'Reset Password',
             text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n`
-            + `Please click on the following link, or paste this into your browser to complete the process:\n\n`
-            + `http://localhost:3000/auth/reset-password/${token}\n\n`
-            + `If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+                + `Please click on the following link, or paste this into your browser to complete the process:\n\n`
+                + `http://localhost:3000/auth/reset-password/${token}\n\n`
+                + `If you did not request this, please ignore this email and your password will remain unchanged.\n`,
         }
 
-        transporter.sendMail(mailOptions,(error,info)=>{
-            if(error){
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
                 console.log(error);
-                res.status(500).json({msg:'error sending email'});
+                res.status(500).json({ msg: 'error sending email' });
             }
-            else{
+            else {
                 console.log('Email sent: ' + info.response);
-                res.status(200).json({msg:'email sent'});
+                res.status(200).json({ msg: 'email sent' });
             }
         });
     } catch (error) {
-        res.status(500).json({ msg: 'Internal Server Error',error:error });
+        res.status(500).json({ msg: 'Internal Server Error', error: error });
     }
 }
 
 async function getForgetPassword(req, res) {
     const { token } = req.params;
     const { password } = req.body;
-    // try {
-        const checkToken = await Token.findOne({ where: { token, scope: 'forget-password',  } });
+    try {
+        const checkToken = await Token.findOne({ where: { token, scope: 'forget-password', } });
         if (!checkToken || checkToken.expiresAt < moment().toDate()) {
             return res.status(400).json({ msg: 'Token Is Invalid Or Expired' });
         }
@@ -116,12 +116,12 @@ async function getForgetPassword(req, res) {
             return res.status(400).json({ msg: 'User Not Found' });
         }
         const hashedPassword = await bcrypt.hash(password, 10);
-        User.update({password: hashedPassword},{where:{id:user.id}});
-        Token.destroy({where:{token}});
-        return res.status(200).json({msg:'Password Berhasil Diubah'});
-    // } catch (error) {
-    //     res.status(500).json({ msg: 'Internal Server Error' ,error:error});
-    // }
+        User.update({ password: hashedPassword }, { where: { id: user.id } });
+        Token.destroy({ where: { token:token } });
+        return res.status(200).json({ msg: 'Password Berhasil Diubah' });
+    } catch (error) {
+        res.status(500).json({ msg: 'Internal Server Error', error: error });
+    }
 }
 
 async function logout(req, res) {
@@ -130,10 +130,10 @@ async function logout(req, res) {
         return res.status(400).json({ msg: 'Token not provided' });
     }
     try {
-        await Token.destroy({ where: { token } });
+        await Token.destroy({ where: { token:token } });
         res.status(200).json({ msg: 'Logout Berhasil' });
     } catch (error) {
-        res.status(500).json({ msg: 'Internal Server Error',error:error });
+        res.status(500).json({ msg: 'Internal Server Error', error: error });
     }
 }
 
