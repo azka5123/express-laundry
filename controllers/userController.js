@@ -33,7 +33,7 @@ async function edit(req,res){
         const user = await User.findByPk(userId);
         res.status(200).json({msg:"data berhasil didapatkankan",data:user});
     }catch(error){
-
+        res.status(500).json({msg:"internal server error",error:error});
     }
 }
 

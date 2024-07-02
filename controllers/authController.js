@@ -55,9 +55,9 @@ async function login(req, res) {
             return res.status(400).json({ msg: 'Email Atau Password Salah' });
         }
 
-        const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '1d' });
         res.json({ token })
-        await Token.create({ token, userId: user.id, expiresAt:expiresAt(1, 'h'), scope: 'login' });
+        await Token.create({ token, userId: user.id, expiresAt:expiresAt(1, 'd'), scope: 'login' });
     } catch (error) {
         res.status(500).json({ msg: 'Internal Server Error',error:error });
     }
