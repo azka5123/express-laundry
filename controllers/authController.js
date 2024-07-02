@@ -36,8 +36,8 @@ async function register(req, res) {
 };
 
 function expiresAt(number, unit) {
-    const local = moment.tz('Asia/Jakarta').format('YYYY-MM-DD HH:mm:ss');
-    const expiresAt = moment(local).add(moment.duration(number, unit)).format('YYYY-MM-DD HH:mm:ss.SSS[Z]');
+    const local = moment.tz('Asia/Jakarta')//.format('YYYY-MM-DD HH:mm:ss');  -> use that for development
+    const expiresAt = moment(local).add(moment.duration(number, unit)) //.format('YYYY-MM-DD HH:mm:ss.SSS[Z]'); -> use that for development
     return expiresAt
 }
 
@@ -66,6 +66,7 @@ async function login(req, res) {
 async function forgetPassword(req, res) {
     const { email } = req.body;
     try {
+       return res.json(expiresAt(10, 'm'));
         const user = await User.findOne({ where: { email } });
         if (!user) {
             return res.status(400).json({ msg: "Email Tidak Terdaftar" });
