@@ -2,11 +2,15 @@ const { User, Token } = require('../models');
 const { sequelize } = require('../models/index');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const JWT_SECRET = process.env.JWT_SECRET;
 const moment = require('moment-timezone');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const dotenv = require('dotenv');
 
+const envFile = process.env.NODE_ENV === 'production' ? '.env.prod' : '.env.dev';
+dotenv.config({path: envFile});
+
+const JWT_SECRET = process.env.JWT_SECRET;
 const transporter = nodemailer.createTransport({
     service: process.env.MAIL_HOST,
     auth: {
