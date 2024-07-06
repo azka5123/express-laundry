@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
 
 async function register(req, res) {
     const { name, email, password, role } = req.body;
-    // res.json(req.body);
+    // res.json(JWT_SECRET);
     if (!name || !email || !password) {
         return res.status(400).json({ msg: 'Masukan Semua Data Yang Dibutuhkan' });
     }
@@ -65,6 +65,8 @@ async function login(req, res) {
 
 async function forgetPassword(req, res) {
     const { email } = req.body;
+    // return res.json(email);
+    // process.exit(1);
     try {
         //    return res.json(expiresAt(10, 'm'));
         const user = await User.findOne({ where: { email } });
@@ -84,9 +86,10 @@ async function forgetPassword(req, res) {
             subject: 'Reset Password',
             text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n`
                 + `Please click on the following link, or paste this into your browser to complete the process:\n\n`
-                + `http://localhost:3000/auth/reset-password/${token}\n\n`
+                + `${process.env.FRONT_END}/submit/forget/${token}\n\n`
                 + `If you did not request this, please ignore this email and your password will remain unchanged.\n`,
         }
+        // return res.json(mailOptions);
 
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
