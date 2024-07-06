@@ -35,19 +35,19 @@
                 "properties": {
                   "name": {
                     "type": "string",
-                    "example": "any"
+                    "example": "john doe"
                   },
                   "email": {
                     "type": "string",
-                    "example": "any"
+                    "example": "john@gmail.com"
                   },
                   "password": {
                     "type": "string",
-                    "example": "any"
+                    "example": "123"
                   },
                   "role": {
                     "type": "string",
-                    "example": "any"
+                    "example": "user/admin"
                   }
                 }
               }
@@ -81,11 +81,11 @@
                 "properties": {
                   "email": {
                     "type": "string",
-                    "example": "any"
+                    "example": "john@gmail.com"
                   },
                   "password": {
                     "type": "string",
-                    "example": "any"
+                    "example": "123"
                   }
                 }
               }
@@ -119,7 +119,7 @@
                 "properties": {
                   "email": {
                     "type": "string",
-                    "example": "any"
+                    "example": "john@gmail.com"
                   }
                 }
               }
@@ -163,7 +163,7 @@
                 "properties": {
                   "password": {
                     "type": "string",
-                    "example": "any"
+                    "example": "123"
                   }
                 }
               }
@@ -247,19 +247,19 @@
                 "properties": {
                   "name": {
                     "type": "string",
-                    "example": "any"
+                    "example": "john doe"
                   },
                   "email": {
                     "type": "string",
-                    "example": "any"
+                    "example": "john@gmail.com"
                   },
                   "password": {
                     "type": "string",
-                    "example": "any"
+                    "example": "123"
                   },
                   "role": {
                     "type": "string",
-                    "example": "any"
+                    "example": "user/admin"
                   }
                 }
               }
@@ -338,19 +338,19 @@
                 "properties": {
                   "name": {
                     "type": "string",
-                    "example": "any"
+                    "example": "john doe"
                   },
                   "email": {
                     "type": "string",
-                    "example": "any"
+                    "example": "john@gmail.com"
                   },
                   "password": {
                     "type": "string",
-                    "example": "any"
+                    "example": "123"
                   },
                   "role": {
                     "type": "string",
-                    "example": "any"
+                    "example": "user/admin"
                   }
                 }
               }
