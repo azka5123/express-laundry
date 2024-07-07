@@ -6,7 +6,6 @@ const envFile = process.env.NODE_ENV === 'production' ? '.env.prod' : '.env.dev'
 dotenv.config({path: envFile});
 let sequelize;
 
-
 if (process.env.NODE_ENV === 'development') {
   sequelize = new Sequelize(
     config.development.database,
