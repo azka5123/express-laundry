@@ -11,5 +11,8 @@
             "src": "/(.*)",
             "dest": "index.js"
         }
-    ]
+    ],
+    "hooks": {
+        "postdeploy": "npx sequelize-cli db:migrate --env production"
+      }
 }

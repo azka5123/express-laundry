@@ -5,6 +5,7 @@ dotenv.config({path: envFile});
 
 module.exports = {
   development: {
+    env: process.env.NODE_ENV,
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
@@ -12,6 +13,7 @@ module.exports = {
     dialect: process.env.DB_CONNECTION,
   },
   production: {
+    env: process.env.NODE_ENV,
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,

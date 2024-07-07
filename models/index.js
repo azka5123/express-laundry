@@ -1,7 +1,11 @@
 const Sequelize = require('sequelize');
 const config = require('../config/config.js');
+const dotenv = require('dotenv');
 
+const envFile = process.env.NODE_ENV === 'production' ? '.env.prod' : '.env.dev';
+dotenv.config({path: envFile});
 let sequelize;
+
 
 if (process.env.NODE_ENV === 'development') {
   sequelize = new Sequelize(
@@ -35,6 +39,7 @@ db.sequelize = sequelize;
 // Load models
 db.User = require('./user')(sequelize, Sequelize);
 db.Token = require('./token')(sequelize, Sequelize);
+db.Profile = require('./profile')(sequelize, Sequelize);
 
 // Define associations
 Object.values(db)

@@ -1,4 +1,4 @@
-const { User, Token } = require('../models');
+const { User, Token,Profile } = require('../models');
 const { sequelize } = require('../models/index');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -21,7 +21,6 @@ const transporter = nodemailer.createTransport({
 
 async function register(req, res) {
     const { name, email, password, role } = req.body;
-    // res.json(JWT_SECRET);
     if (!name || !email || !password) {
         return res.status(400).json({ msg: 'Masukan Semua Data Yang Dibutuhkan' });
     }
@@ -30,6 +29,7 @@ async function register(req, res) {
         await sequelize.sync();
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await User.create({ name, email, password: hashedPassword, role: 'user' });
+        await Profile.create({ userId: user.id });
         res.status(201).json({ msg: 'User Berhasil Dibuat' });
     } catch (error) {
         if (error.email === 'SequelizeUniqueConstraintError') {
