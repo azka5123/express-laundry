@@ -12,7 +12,7 @@
             "dest": "index.js"
         }
     ],
-    "hooks": {
-        "postdeploy": "npx sequelize-cli db:migrate --env production"
-      }
+    "scripts": {
+        "postbuild": "npx sequelize-cli db:migrate --env production"
+    }
 }
