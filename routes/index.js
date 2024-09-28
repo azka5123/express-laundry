@@ -9,10 +9,6 @@ const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger
 
 const router = express.Router();
 // sdas
-// asagfag
-// asfasf
-// daw
-// as
 router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
     customCss:
         '.swagger-ui .opblock .opblock-summary-path-description-wrapper { align-items: center; display: flex; flex-wrap: wrap; gap: 0 10px; padding: 0 10px; width: 100%; }',
